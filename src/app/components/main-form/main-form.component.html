@@ -1,0 +1,180 @@
+<div class="container">
+  <h2>Reservation Form</h2>
+
+  <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="form-control"
+        required
+        [ngClass]="{
+          'is-invalid':
+            reservationForm.get('name')?.invalid &&
+            reservationForm.get('name')?.touched,
+        }"
+      />
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          reservationForm.get('name')?.invalid &&
+          reservationForm.get('name')?.touched
+        "
+      >
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="surname">Surname</label>
+      <input
+        type="text"
+        id="surname"
+        formControlName="surname"
+        class="form-control"
+        required
+        [ngClass]="{
+          'is-invalid':
+            reservationForm.get('surname')?.invalid &&
+            reservationForm.get('surname')?.touched,
+        }"
+      />
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          reservationForm.get('surname')?.invalid &&
+          reservationForm.get('surname')?.touched
+        "
+      >
+        Surname is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="isEmployee">Employee status</label>
+      <select
+        id="isEmployee"
+        formControlName="isEmployee"
+        class="form-control"
+        required
+        [ngClass]="{
+          'is-invalid':
+            reservationForm.get('isEmployee')?.invalid &&
+            reservationForm.get('isEmployee')?.touched,
+        }"
+      >
+        <option value="">Select an option</option>
+        <option value="employee">I am an employee</option>
+        <option value="dependent">I am a dependent</option>
+      </select>
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          reservationForm.get('isEmployee')?.invalid &&
+          reservationForm.get('isEmployee')?.touched
+        "
+      >
+        Employee status is required.
+      </div>
+    </div>
+
+    <div *ngIf="isDependentSelected()">
+      <div class="form-group">
+        <label for="invitingEmployeeId">Inviter's Id</label>
+        <input
+          type="text"
+          id="invitingEmployeeId"
+          formControlName="invitingEmployeeId"
+          class="form-control"
+          required
+          [ngClass]="{
+            'is-invalid':
+              reservationForm.get('invitingEmployeeId')?.invalid &&
+              reservationForm.get('invitingEmployeeId')?.touched,
+          }"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            reservationForm.get('invitingEmployeeId')?.invalid &&
+            reservationForm.get('invitingEmployeeId')?.touched
+          "
+        >
+          Inviter's Id is required.
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+<div class="container" *ngIf="isEmployeeSelected()">
+  <div class="user-form">
+    <p>
+      1. {{ reservationForm.get('name')?.value }}
+      {{ reservationForm.get('surname')?.value }}
+    </p>
+    <input type="checkbox" id="age" />
+    <label class="userage-label" for="userage">I am 18+</label>
+    <p>Drinks pre-order :</p>
+    <label for="drinkselect">Drinks select</label>
+    <select id="drinkselect">
+      <option *ngFor="let drink of drinks" value="drink.value">
+        {{ drink.name }}
+      </option>
+    </select>
+  </div>
+
+  <ng-container *ngIf="isDependentsCreated()">
+    <div class="user-form" *ngFor="let dep of dependents$ | async; index as i">
+      <p>
+        {{i + 2}}. {{ dep.name }} {{ dep.surname }}
+      </p>
+      <input type="checkbox" id="'age-check-' + i" />
+      <label class="userage-label" for="'age-check-' + i">I am 18+</label>
+      <p>Drinks pre-order :</p>
+      <label for="drinkselect">Drinks select</label>
+      <select id="drinkselect">
+        <option *ngFor="let drink of drinks" value="drink.value">
+          {{ drink.name }}
+        </option>
+      </select>
+      <button class="del-btn btn-close" (click)="delDeps(i)">del</button>
+    </div>
+  </ng-container>
+  
+  <button *ngIf="depButton && fullGroup" class="btn btn-primary" (click)="addDeps()">add a dependent</button>
+  <button *ngIf="!depButton && fullGroup" class="btn btn-close" (click)="closeAddDeps()">close dependent form</button>
+</div>
+
+<div class="container" *ngIf="showDepAddForm">
+  <div class="form-group">
+    <label for="depName">Name</label>
+    <input
+      type="text"
+      id="depName"
+      class="form-control"
+      required
+      #depName
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="depSurname">Surname</label>
+    <input
+      type="text"
+      id="depSurname"
+      class="form-control"
+      required
+      #depSurname
+    />
+  </div>
+  <button
+    class="btn btn-primary"
+    (click)="onAddDep(depName.value, depSurname.value)"
+  >
+    Add
+  </button>
+</div>
