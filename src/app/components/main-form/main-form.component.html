@@ -106,6 +106,43 @@
         </div>
       </div>
     </div>
+
+    <div class="container" *ngIf="isEmployeeSelected()">
+      <div class="checkbox-group">
+        <input type="checkbox" id="iamAdult" (change)="iamAdult = !iamAdult"/>
+        <label class="userage-label" for="iamAdult">I am 18+</label>
+      </div>
+      <div class="form-group">
+        <label for="drink">Drinks pre-order</label>
+          <select
+            id="drink"
+            class="form-control"
+            formControlName="mydrink"
+            required
+            [ngClass]="{
+              'is-invalid':
+                reservationForm.get('mydrink')?.invalid &&
+                reservationForm.get('mydrink')?.touched,
+            }"
+          >
+            <option value="">Select an option</option>
+            <option value="coke">Coke</option>
+            <option value="pepsi">Pepsi</option>
+            <option *ngIf="iamAdult === true" value="beer">Beer</option>
+            <option *ngIf="iamAdult" value="wine">Wine</option>
+          </select>
+          <div
+        class="invalid-feedback"
+        *ngIf="
+          reservationForm.get('mydrink')?.invalid &&
+          reservationForm.get('mydrink')?.touched
+        "
+      >
+        Drink pre-select is required.
+      </div>
+      </div>
+    </div>
+
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
@@ -114,33 +151,17 @@
   <div class="user-form">
     <p>
       1. {{ reservationForm.get('name')?.value }}
-      {{ reservationForm.get('surname')?.value }}
+      {{ reservationForm.get('surname')?.value }}. 
+      Drinks pre-order:
+      {{ reservationForm.get('mydrink')?.value }}.
     </p>
-    <input type="checkbox" id="age" />
-    <label class="userage-label" for="userage">I am 18+</label>
-    <p>Drinks pre-order :</p>
-    <label for="drinkselect">Drinks select</label>
-    <select id="drinkselect">
-      <option *ngFor="let drink of drinks" value="drink.value">
-        {{ drink.name }}
-      </option>
-    </select>
   </div>
 
   <ng-container *ngIf="isDependentsCreated()">
     <div class="user-form" *ngFor="let dep of dependents$ | async; index as i">
       <p>
-        {{i + 2}}. {{ dep.name }} {{ dep.surname }}
+        {{i + 2}}. {{ dep.name }} {{ dep.surname }}. Drinks pre-order: {{dep.drink}}.
       </p>
-      <input type="checkbox" id="'age-check-' + i" />
-      <label class="userage-label" for="'age-check-' + i">I am 18+</label>
-      <p>Drinks pre-order :</p>
-      <label for="drinkselect">Drinks select</label>
-      <select id="drinkselect">
-        <option *ngFor="let drink of drinks" value="drink.value">
-          {{ drink.name }}
-        </option>
-      </select>
       <button class="del-btn btn-close" (click)="delDeps(i)">del</button>
     </div>
   </ng-container>
@@ -171,9 +192,27 @@
       #depSurname
     />
   </div>
+  <div>
+    <input type="checkbox" id="isAdult" (change)="isAdult = !isAdult"/>
+    <label class="userage-label" for="isAdult">I am 18+</label>
+  </div>
+  <div class="form-group">
+    <label for="drink">Drinks pre-order</label>
+      <select
+        id="drink"
+        class="form-control"
+        #drinkSelect
+      >
+        <option value="">Select an option</option>
+        <option value="coke">Coke</option>
+        <option value="pepsi">Pepsi</option>
+        <option *ngIf="isAdult === true" value="beer">Beer</option>
+        <option *ngIf="isAdult" value="wine">Wine</option>
+      </select>
+  </div>
   <button
     class="btn btn-primary"
-    (click)="onAddDep(depName.value, depSurname.value)"
+    (click)="onAddDep(depName.value, depSurname.value, drinkSelect.value)"
   >
     Add
   </button>

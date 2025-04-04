@@ -33,12 +33,15 @@ export class MainFormComponent {
   depButton = true;
   fullGroup = true;
   dependents$ = new BehaviorSubject<any[]>([]);
+  iamAdult = false;
+  isAdult = false;
 
   constructor(private fb: FormBuilder) {
     this.reservationForm = this.fb.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
       isEmployee: ['', Validators.required],
+      mydrink: ['', Validators.required],
       dependents: this.fb.array([]),
       invitingEmployeeId: [''],
     });
@@ -98,11 +101,11 @@ export class MainFormComponent {
     return false;
   }
 
-  createDependent(name: string = '', surname: string = ''): FormGroup {
+  createDependent(name: string = '', surname: string = '', drink: string = ''): FormGroup {
     return this.fb.group({
       name: [name, Validators.required],
       surname: [surname, Validators.required],
-      drink: ['', Validators.required],
+      drink: [drink, Validators.required],
     });
   }
 
@@ -124,11 +127,11 @@ export class MainFormComponent {
     this.showDepAddForm = false;
   }
 
-  onAddDep(depName: string, depSurname: string) {
+  onAddDep(depName: string, depSurname: string, drink: string) {
     this.showDepAddForm = false;
     const dependents = this.reservationForm.get('dependents') as FormArray;
     if (dependents) {
-      dependents.push(this.createDependent(depName, depSurname));
+      dependents.push(this.createDependent(depName, depSurname, drink));
       this.dependents$.next(dependents.value);
       this.depButton = true;
       if (dependents.length > 4) {
