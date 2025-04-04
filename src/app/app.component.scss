@@ -13,3 +13,19 @@
   width: 100%;
   z-index: -1;
 }
+
+.navbar {
+  background-color: #262a2e;
+
+  & button {
+    background-color: #262a2e;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}

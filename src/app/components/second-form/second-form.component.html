@@ -1,0 +1,82 @@
+<div class="container">
+  <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+    <p>{{reservationForm.get('isEmployee')?.value}}</p>
+    <div class="form-group" [@fadeIn]>
+      <label for="name">Name</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            reservationForm.get('name')?.invalid &&
+            reservationForm.get('name')?.touched,
+        }"
+      />
+    </div>
+
+    <div
+      *ngIf="reservationForm.get('name')?.valid"
+      class="form-group"
+      [@fadeIn]
+    >
+      <label for="surname">Surname</label>
+      <input
+        type="text"
+        id="surname"
+        formControlName="surname"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            reservationForm.get('surname')?.invalid &&
+            reservationForm.get('surname')?.touched,
+        }"
+      />
+    </div>
+
+    <div
+      *ngIf="reservationForm.get('surname')?.valid"
+      class="form-group"
+      [@fadeIn]
+    >
+      <label for="isEmployee">Employee status</label>
+      <select
+        id="isEmployee"
+        formControlName="isEmployee"
+        class="form-control"
+        required
+        [ngClass]="{
+          'is-invalid':
+            reservationForm.get('isEmployee')?.invalid &&
+            reservationForm.get('isEmployee')?.touched,
+        }"
+      >
+        <option value="">Select an option</option>
+        <option *ngFor="let status of employeeStatuses" value="status.value">
+          {{ status.name }}
+        </option>
+      </select>
+    </div>
+
+    <div
+    *ngIf="reservationForm.get('isEmployee')?.value === 'dependent'"
+    class="form-group"
+    [@fadeIn]
+    >
+        <label for="invitingEmployeeId">Enter inviting employee Id</label>
+        <input
+        type="text"
+        id="invitingEmployeeId"
+        formControlName="invitingEmployeeId"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            reservationForm.get('invitingEmployeeId')?.invalid &&
+            reservationForm.get('invitingEmployeeId')?.touched,
+        }"
+      />
+    </div>
+
+  </form>
+</div>

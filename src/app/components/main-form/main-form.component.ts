@@ -101,7 +101,11 @@ export class MainFormComponent {
     return false;
   }
 
-  createDependent(name: string = '', surname: string = '', drink: string = ''): FormGroup {
+  createDependent(
+    name: string = '',
+    surname: string = '',
+    drink: string = '',
+  ): FormGroup {
     return this.fb.group({
       name: [name, Validators.required],
       surname: [surname, Validators.required],

@@ -109,37 +109,37 @@
 
     <div class="container" *ngIf="isEmployeeSelected()">
       <div class="checkbox-group">
-        <input type="checkbox" id="iamAdult" (change)="iamAdult = !iamAdult"/>
+        <input type="checkbox" id="iamAdult" (change)="iamAdult = !iamAdult" />
         <label class="userage-label" for="iamAdult">I am 18+</label>
       </div>
       <div class="form-group">
         <label for="drink">Drinks pre-order</label>
-          <select
-            id="drink"
-            class="form-control"
-            formControlName="mydrink"
-            required
-            [ngClass]="{
-              'is-invalid':
-                reservationForm.get('mydrink')?.invalid &&
-                reservationForm.get('mydrink')?.touched,
-            }"
-          >
-            <option value="">Select an option</option>
-            <option value="coke">Coke</option>
-            <option value="pepsi">Pepsi</option>
-            <option *ngIf="iamAdult === true" value="beer">Beer</option>
-            <option *ngIf="iamAdult" value="wine">Wine</option>
-          </select>
-          <div
-        class="invalid-feedback"
-        *ngIf="
-          reservationForm.get('mydrink')?.invalid &&
-          reservationForm.get('mydrink')?.touched
-        "
-      >
-        Drink pre-select is required.
-      </div>
+        <select
+          id="drink"
+          class="form-control"
+          formControlName="mydrink"
+          required
+          [ngClass]="{
+            'is-invalid':
+              reservationForm.get('mydrink')?.invalid &&
+              reservationForm.get('mydrink')?.touched,
+          }"
+        >
+          <option value="">Select an option</option>
+          <option value="coke">Coke</option>
+          <option value="pepsi">Pepsi</option>
+          <option *ngIf="iamAdult === true" value="beer">Beer</option>
+          <option *ngIf="iamAdult" value="wine">Wine</option>
+        </select>
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            reservationForm.get('mydrink')?.invalid &&
+            reservationForm.get('mydrink')?.touched
+          "
+        >
+          Drink pre-select is required.
+        </div>
       </div>
     </div>
 
@@ -151,8 +151,7 @@
   <div class="user-form">
     <p>
       1. {{ reservationForm.get('name')?.value }}
-      {{ reservationForm.get('surname')?.value }}. 
-      Drinks pre-order:
+      {{ reservationForm.get('surname')?.value }}. Drinks pre-order:
       {{ reservationForm.get('mydrink')?.value }}.
     </p>
   </div>
@@ -160,26 +159,33 @@
   <ng-container *ngIf="isDependentsCreated()">
     <div class="user-form" *ngFor="let dep of dependents$ | async; index as i">
       <p>
-        {{i + 2}}. {{ dep.name }} {{ dep.surname }}. Drinks pre-order: {{dep.drink}}.
+        {{ i + 2 }}. {{ dep.name }} {{ dep.surname }}. Drinks pre-order:
+        {{ dep.drink }}.
       </p>
       <button class="del-btn btn-close" (click)="delDeps(i)">del</button>
     </div>
   </ng-container>
-  
-  <button *ngIf="depButton && fullGroup" class="btn btn-primary" (click)="addDeps()">add a dependent</button>
-  <button *ngIf="!depButton && fullGroup" class="btn btn-close" (click)="closeAddDeps()">close dependent form</button>
+
+  <button
+    *ngIf="depButton && fullGroup"
+    class="btn btn-primary"
+    (click)="addDeps()"
+  >
+    add a dependent
+  </button>
+  <button
+    *ngIf="!depButton && fullGroup"
+    class="btn btn-close"
+    (click)="closeAddDeps()"
+  >
+    close dependent form
+  </button>
 </div>
 
 <div class="container" *ngIf="showDepAddForm">
   <div class="form-group">
     <label for="depName">Name</label>
-    <input
-      type="text"
-      id="depName"
-      class="form-control"
-      required
-      #depName
-    />
+    <input type="text" id="depName" class="form-control" required #depName />
   </div>
 
   <div class="form-group">
@@ -192,23 +198,19 @@
       #depSurname
     />
   </div>
-  <div>
-    <input type="checkbox" id="isAdult" (change)="isAdult = !isAdult"/>
+  <div class="checkbox-group">
+    <input type="checkbox" id="isAdult" (change)="isAdult = !isAdult" />
     <label class="userage-label" for="isAdult">I am 18+</label>
   </div>
   <div class="form-group">
     <label for="drink">Drinks pre-order</label>
-      <select
-        id="drink"
-        class="form-control"
-        #drinkSelect
-      >
-        <option value="">Select an option</option>
-        <option value="coke">Coke</option>
-        <option value="pepsi">Pepsi</option>
-        <option *ngIf="isAdult === true" value="beer">Beer</option>
-        <option *ngIf="isAdult" value="wine">Wine</option>
-      </select>
+    <select id="drink" class="form-control" #drinkSelect>
+      <option value="">Select an option</option>
+      <option value="coke">Coke</option>
+      <option value="pepsi">Pepsi</option>
+      <option *ngIf="isAdult === true" value="beer">Beer</option>
+      <option *ngIf="isAdult" value="wine">Wine</option>
+    </select>
   </div>
   <button
     class="btn btn-primary"
