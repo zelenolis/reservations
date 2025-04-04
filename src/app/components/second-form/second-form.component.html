@@ -53,14 +53,14 @@
         }"
       >
         <option value="">Select an option</option>
-        <option *ngFor="let status of employeeStatuses" value="status.value">
+        <option *ngFor="let status of employeeStatuses" [value]="status.value">
           {{ status.name }}
         </option>
       </select>
     </div>
 
     <div
-    *ngIf="reservationForm.get('isEmployee')?.value === 'dependent'"
+    *ngIf="reservationForm.get('isEmployee')?.value === employeeStatuses[1].value"
     class="form-group"
     [@fadeIn]
     >
