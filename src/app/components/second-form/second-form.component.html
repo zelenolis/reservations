@@ -1,6 +1,5 @@
 <div class="container">
   <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
-    <p>{{reservationForm.get('isEmployee')?.value}}</p>
     <div class="form-group" [@fadeIn]>
       <label for="name">Name</label>
       <input
@@ -45,7 +44,6 @@
         id="isEmployee"
         formControlName="isEmployee"
         class="form-control"
-        required
         [ngClass]="{
           'is-invalid':
             reservationForm.get('isEmployee')?.invalid &&
@@ -77,6 +75,43 @@
         }"
       />
     </div>
+
+    <div
+    *ngIf="reservationForm.get('invitingEmployeeId')?.value !== ''"
+    class="form-group"
+    [@fadeIn]
+    >
+        <div>
+            <input type="checkbox" #isAdult id="isAdult" />
+            <label for="isAdult">I am 18+</label>
+        </div>
+        <label for="drink"></label>
+        <select
+            id="drink"
+            formControlName="drink"
+            class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            reservationForm.get('isEmployee')?.invalid &&
+            reservationForm.get('isEmployee')?.touched,
+        }">
+            <option value="">Select an option</option>
+            <ng-container *ngIf="isAdult.checked === true; else notAdult">
+                <option *ngFor="let drink of drinks" [value]="drink.value">
+                    {{ drink.name }}
+                    </option>
+            </ng-container>
+            <ng-template #notAdult>
+                <option *ngFor="let softDrink of softDrinks" [value]="softDrink.value">
+                    {{ softDrink.name }}
+                    </option>
+            </ng-template>
+        </select>
+    </div>
+    <ng-container *ngIf="reservationForm.get('drink')?.valid">
+        <button type="submit" class="btn btn-primary" [@fadeIn]>Submit</button>
+    </ng-container>
+    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
 
   </form>
 </div>

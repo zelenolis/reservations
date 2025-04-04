@@ -14,6 +14,13 @@ enum EmployeeOptions {
   DEPENDENT = 'dependent',
 }
 
+enum DrinkOptions {
+  COKE = 'coke',
+  PEPSI = 'pepsi',
+  BEER = 'beer',
+  VODKA = 'vodka',
+}
+
 @Component({
   selector: 'app-second-form',
   imports: [ReactiveFormsModule, CommonModule],
@@ -35,6 +42,16 @@ export class SecondFormComponent {
     { name: 'I am an employee', value: EmployeeOptions.EMPLOYEE },
     { name: 'I am a dependent', value: EmployeeOptions.DEPENDENT },
   ];
+  drinks = [
+    { name: 'Coke', value: DrinkOptions.COKE },
+    { name: 'Pepsi', value: DrinkOptions.PEPSI },
+    { name: 'Beer', value: DrinkOptions.BEER },
+    { name: 'Vodka', value: DrinkOptions.VODKA },
+  ];
+  softDrinks = [
+    { name: 'Coke', value: DrinkOptions.COKE },
+    { name: 'Pepsi', value: DrinkOptions.PEPSI },
+  ];
 
   constructor(private fb: FormBuilder) {
     this.reservationForm = this.fb.group({
@@ -42,6 +59,7 @@ export class SecondFormComponent {
       surname: ['', Validators.required],
       isEmployee: ['', Validators.required],
       invitingEmployeeId: [''],
+      drink: ['', Validators.required],
     });
   }
 
